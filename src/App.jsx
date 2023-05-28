@@ -1,46 +1,12 @@
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import "./App.css";
+import Word from "./components/Word";
+import Timer from "./components/Timer";
 
 const getKeys = () =>
   `as df jk l; ds kj ;a lf ja ld ;a lk fa lf as df jk ;l ds kj kd ls ;a jf aj sk dl f;`
     .split(" ")
     .sort(() => (Math.random() > 0.5 ? 1 : -1));
-
-const Word = ({ text, active, correct }) => {
-  // TODO/: 1. optimize it using memo
-
-  if (correct === true) {
-    return <span className="correct"> {text} </span>;
-  }
-  if (correct === false) {
-    return <span className="inCorrect"> {text} </span>;
-  }
-  if (active) {
-    return <span className="active"> {text} </span>;
-  }
-  return <span>{text} </span>;
-};
-
-const Timer = ({ startCount, correctWords, time, setTime }) => {
-  useEffect(() => {
-    let interval;
-    if (startCount) {
-      interval = setInterval(() => {
-        setTime((old) => old + 1);
-      }, 1000);
-    }
-    return () => {
-      clearInterval(interval);
-    };
-  }, [startCount, setTime]);
-  const minutes = time / 60;
-  return (
-    <div className="scores">
-      <p>Time: {time}</p>
-      <p>Speed: {(correctWords / minutes || 0).toFixed(2)} WPM</p>
-    </div>
-  );
-};
 
 function App() {
   const [userInput, setUserInput] = useState("");
